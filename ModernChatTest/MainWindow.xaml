@@ -6,10 +6,10 @@
     xmlns:local="clr-namespace:ModernChatTest"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodel="clr-namespace:ModernChatTest.MVVM.ViewModel"
-    Width="1172"
-    Height="651"
+    Width="1200"
+    Height="650"
     AllowsTransparency="True"
-    Background="#36393f"
+    Background="Transparent"
     ResizeMode="CanResizeWithGrip"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -19,144 +19,220 @@
     </Window.DataContext>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
         <Border
-            Grid.ColumnSpan="2"
-            Background="#252525"
-            MouseDown="Border_MouseDown">
-            <Grid HorizontalAlignment="Stretch">
-                <Label
-                    Content="ModernChatTest"
-                    FontWeight="SemiBold"
-                    Foreground="Gray" />
+            Background="#36393f"
+            BorderBrush="#2F3136"
+            BorderThickness="1"
+            CornerRadius="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-                    <Button
-                        Width="20"
-                        Height="20"
-                        Margin="0,0,0,3"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Click="ButtonMinimize_Click"
-                        Content="_"
-                        FontWeight="Bold"
+                <Border
+                    Grid.ColumnSpan="2"
+                    Background="#252525"
+                    MouseDown="Border_MouseDown">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Label
+                            Content="ModernChatTest"
+                            FontWeight="SemiBold"
+                            Foreground="Gray" />
+
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                            <Button
+                                Width="20"
+                                Height="20"
+                                Margin="0,0,0,3"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="ButtonMinimize_Click"
+                                Content="_"
+                                Cursor="Hand"
+                                FontWeight="Bold"
+                                Foreground="Gray"
+                                ToolTip="Minimize" />
+
+                            <Button
+                                Width="20"
+                                Height="20"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="ButtonMaximize_Click"
+                                Content="□"
+                                Cursor="Hand"
+                                FontWeight="Bold"
+                                Foreground="Gray"
+                                ToolTip="Maximize" />
+
+                            <Button
+                                Width="20"
+                                Height="20"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="ButtonClose_Click"
+                                Content="✕"
+                                Cursor="Hand"
+                                FontWeight="Bold"
+                                Foreground="Gray"
+                                ToolTip="Close" />
+
+
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="1" Background="#2F3136">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition />
+                        <RowDefinition Height="60" />
+                    </Grid.RowDefinitions>
+
+                    <Label
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        Content="Contacts"
+                        FontWeight="Medium"
                         Foreground="Gray" />
 
-                    <Button
-                        Width="20"
-                        Height="20"
+                    <ListView
+                        Grid.Row="1"
                         Background="Transparent"
                         BorderThickness="0"
-                        Click="ButtonMaximize_Click"
-                        Content="□"
-                        FontWeight="Bold"
-                        Foreground="Gray" />
+                        ItemContainerStyle="{StaticResource ContactCard}"
+                        ItemsSource="{Binding Contacts}"
+                        SelectedItem="{Binding SelectedContact}" />
 
-                    <Button
-                        Width="20"
-                        Height="20"
+                    <StackPanel
+                        Grid.Row="2"
+                        Background="#292B2F"
+                        Orientation="Horizontal">
+                        <Border
+                            Width="30"
+                            Height="30"
+                            Margin="18,0,0,0"
+                            Background="#3bff6f"
+                            CornerRadius="25" />
+
+                        <StackPanel VerticalAlignment="Center">
+                            <Label
+                                Margin="0,-5,0,-5"
+                                Content="Username"
+                                FontWeight="SemiBold"
+                                Foreground="#F4F6F8" />
+                            <Label
+                                Margin="0,-8,0,-5"
+                                Content="Custom Status"
+                                FontSize="10"
+                                FontWeight="SemiBold"
+                                Foreground="Gray" />
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition />
+                        <RowDefinition Height="70" />
+                    </Grid.RowDefinitions>
+
+                    <Border BorderBrush="#2F3136" BorderThickness="0,0,0,2">
+                        <Grid Margin="8" HorizontalAlignment="Stretch">
+
+                            <Label
+                                Margin="5,0"
+                                VerticalAlignment="Center"
+                                Content="@Username"
+                                FontWeight="Bold"
+                                Foreground="#F4F6F8" />
+
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Margin="5,0,5,0"
+                                    Cursor="Hand"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/phone.png"
+                                    ToolTip="Phone Call" />
+
+                                <Image
+                                    Width="20"
+                                    Height="20"
+                                    Margin="5,0,5,0"
+                                    Cursor="Hand"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/camera.png"
+                                    ToolTip="Video Call" />
+                            </StackPanel>
+
+
+                        </Grid>
+                    </Border>
+
+                    <ListView
+                        Grid.Row="1"
+                        Margin="8,0,0,0"
+                        d:ItemsSource="{d:SampleData ItemCount=5}"
                         Background="Transparent"
                         BorderThickness="0"
-                        Click="ButtonClose_Click"
-                        Content="✕"
-                        FontWeight="Bold"
-                        Foreground="Gray" />
+                        ItemContainerStyle="{StaticResource ChatItem}"
+                        ItemsSource="{Binding SelectedContact.Messages}" />
 
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="90" />
+                        </Grid.ColumnDefinitions>
 
-                </StackPanel>
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Height="50"
+                            Style="{StaticResource MessageBox}"
+                            Text="Message @username" />
+
+                        <StackPanel
+                            Grid.Column="1"
+                            Margin="0,0,16,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Margin="5,5,5,0"
+                                Cursor="Hand"
+                                RenderOptions.BitmapScalingMode="Fant"
+                                Source="/paperClip.png"
+                                ToolTip="Choose File" />
+
+                            <Image
+                                Width="20"
+                                Height="20"
+                                Margin="5,5,16,0"
+                                Cursor="Hand"
+                                RenderOptions.BitmapScalingMode="Fant"
+                                Source="/send.png"
+                                ToolTip="Send" />
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
             </Grid>
         </Border>
 
-        <Grid Grid.Row="1" Background="#2F3136">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition />
-                <RowDefinition Height="60" />
-            </Grid.RowDefinitions>
-
-            <Label
-                Margin="8,0,0,0"
-                VerticalAlignment="Center"
-                Content="Contacts"
-                FontWeight="Medium"
-                Foreground="Gray" />
-
-            <ListView
-                Grid.Row="1"
-                Background="Transparent"
-                BorderThickness="0"
-                ItemContainerStyle="{StaticResource ContactCard}"
-                ItemsSource="{Binding Contacts}" />
-
-            <StackPanel
-                Grid.Row="2"
-                Background="#292B2F"
-                Orientation="Horizontal">
-                <Border
-                    Width="30"
-                    Height="30"
-                    Margin="18,0,0,0"
-                    Background="#3bff6f"
-                    CornerRadius="25" />
-
-                <StackPanel VerticalAlignment="Center">
-                    <Label
-                        Margin="0,-5,0,-5"
-                        Content="Username"
-                        FontWeight="SemiBold"
-                        Foreground="White" />
-                    <Label
-                        Margin="0,-8,0,-5"
-                        Content="Custom Status"
-                        FontSize="10"
-                        FontWeight="SemiBold"
-                        Foreground="Gray" />
-                </StackPanel>
-
-            </StackPanel>
-
-        </Grid>
-
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition />
-                <RowDefinition Height="70" />
-            </Grid.RowDefinitions>
-
-            <Border>
-                <Grid Margin="8" HorizontalAlignment="Stretch">
-
-                    <Label
-                        Margin="5,0"
-                        VerticalAlignment="Center"
-                        Content="@Username"
-                        FontWeight="Bold"
-                        Foreground="#F4F6F8" />
-
-                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Image
-                            Width="20"
-                            Height="20"
-                            Margin="5,0,5,0"
-                            RenderOptions.BitmapScalingMode="Fant"
-                            Source="" />
-                    </StackPanel>
-
-
-                </Grid>
-            </Border>
-        </Grid>
     </Grid>
 </Window>

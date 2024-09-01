@@ -1,66 +1,72 @@
-﻿using ModernChatTest.MVVM.Model;
+﻿using ModernChatTest.Core;
+using ModernChatTest.MVVM.Model;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ModernChatTest.MVVM.ViewModel
 {
-    internal class MainViewModel
+    public class MainViewModel : ObservableObject
     {
-        public ObservableCollection<MessageModel> Messages { get; set; }
         public ObservableCollection<ContactModel> Contacts { get; set; }
+        public RelayCommand SendCommand { get; set; }
+
+        private ContactModel _selectedContact;
+
+        public ContactModel SelectedContact
+        {
+            get { return _selectedContact; }
+            set { _selectedContact = value; OnPropertyChanged(); }
+        }
+
+        private string _message;
+
+        public string Message
+        {
+            get { return _message; }
+            set { _message = value; OnPropertyChanged(); }
+        }
 
         public MainViewModel()
         {
-            Messages = new ObservableCollection<MessageModel>();
             Contacts = new ObservableCollection<ContactModel>();
 
-            Messages.Add(new MessageModel
+            SendCommand = new RelayCommand(_ =>
             {
-                Username = "EmmaEinhorn",
-                UsernameColor = "#409aff",
-                ImageSource = "https://i.imgur.com/yMWvLXd.png",
-                Message = "Test",
-                Time = DateTime.Now,
-                IsNativeOrigin = false,
-                FirstMessage = true
+                Console.WriteLine("SendCommand executed!");
+                if (string.IsNullOrWhiteSpace(Message))
+                {
+                    Console.WriteLine("Message is empty or null.");
+                }
+                if (SelectedContact == null)
+                {
+                    Console.WriteLine("SelectedContact is null.");
+                }
+
+                if (!string.IsNullOrWhiteSpace(Message) && SelectedContact != null)
+                {
+                    Console.WriteLine($"Adding message: {Message}");
+                    var newMessage = new MessageModel(
+                        username: "EinfachValle", // Replace with actual current user name
+                        usernameColor: "#ffa500",
+                        imageSource: "https://i.imgur.com/ZrKq1OO.png", // Replace with actual image source
+                        message: Message,
+                        time: DateTime.Now,
+                        isNativeOrigin: true);
+
+                    SelectedContact.AddMessage(newMessage);
+
+                    Message = "";
+                    Console.WriteLine("Message sent and input cleared.");
+                }
             });
 
-            for (int i = 0; i < 3; i++)
+            var sampleMessages = new ObservableCollection<MessageModel>
             {
-                Messages.Add(new MessageModel
-                {
-                    Username = "EmmaEinhorn",
-                    UsernameColor = "#409aff",
-                    ImageSource = "https://i.imgur.com/yMWvLXd.png",
-                    Message = "Test",
-                    Time = DateTime.Now,
-                    IsNativeOrigin = false,
-                    FirstMessage = false
-                });
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                Messages.Add(new MessageModel
-                {
-                    Username = "Sakuya",
-                    UsernameColor = "#409aff",
-                    ImageSource = "https://i.imgur.com/yMWvLXd.png",
-                    Message = "Test",
-                    Time = DateTime.Now,
-                    IsNativeOrigin = true
-                });
-            }
-
-            Messages.Add(new MessageModel
-            {
-                Username = "Sakuya",
-                UsernameColor = "#409aff",
-                ImageSource = "https://i.imgur.com/yMWvLXd.png",
-                Message = "Last",
-                Time = DateTime.Now,
-                IsNativeOrigin = true
-            });
+                new MessageModel("EmmaEinhorn", "#FFC0CB", "https://i.imgur.com/yMWvLXd.png", "Test", DateTime.Now, false, true),
+                new MessageModel("Sakuya", "#403aff", "https://i.imgur.com/5ZpVuogl.png", "Test", DateTime.Now, true),
+                new MessageModel("Sakuya", "#403aff", "https://i.imgur.com/5ZpVuogl.png", "Last", DateTime.Now, true)
+            };
 
             for (int i = 0; i < 5; i++)
             {
@@ -68,10 +74,11 @@ namespace ModernChatTest.MVVM.ViewModel
                 {
                     Username = $"EmmaEinhorn {i}",
                     ImageSource = "https://i.imgur.com/yMWvLXd.png",
-                    Messages = Messages,
+                    Messages = new ObservableCollection<MessageModel>(sampleMessages)
                 });
             }
 
+            SelectedContact = Contacts.FirstOrDefault(); // Set a default selected contact
         }
     }
 }
